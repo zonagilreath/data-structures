@@ -1,16 +1,16 @@
 var BinarySearchTree = function(value) {
   const bst = Object.create(BinarySearchTree.prototype);
-  bst.root = value;
+  bst.value = value;
   bst.left = null;
   bst.right = null;
   return bst;
 };
 
 BinarySearchTree.prototype.insert = function(value){
-  if (this.root === value) {
+  if (this.value === value) {
     return;
   }
-  else if (value < this.root) {
+  else if (value < this.value) {
     if (this.left) {
       this.left.insert(value);
     }
@@ -29,10 +29,10 @@ BinarySearchTree.prototype.insert = function(value){
 }
 
 BinarySearchTree.prototype.contains = function(value){
-  if (this.root === value) {
+  if (this.value === value) {
     return true;
   }
-  else if (value < this.root) {
+  else if (value < this.value) {
     if (this.left) {
       return this.left.contains(value);
     }
@@ -51,7 +51,7 @@ BinarySearchTree.prototype.contains = function(value){
 }
 
 BinarySearchTree.prototype.depthFirstLog = function(func){
-  func(this.root);
+  func(this.value);
   if (this.left) {
     this.left.depthFirstLog(func);
   }
@@ -63,4 +63,7 @@ BinarySearchTree.prototype.depthFirstLog = function(func){
 
 /*
  * Complexity: What is the time complexity of the above functions?
+ * insert logn
+ * contains logn
+ * depthFirstLog linear
  */
