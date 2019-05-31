@@ -43,11 +43,12 @@ HashTable.prototype._formatStorage = function(newLimit) {
     arr[i] = {};
   });
   if (oldStorage) {
+    let currHash = this;
     oldStorage.each(function(obj) {
       for (let key in obj) {
-        this.insert(key, obj[key]);
+        currHash.insert(key, obj[key]);
       }
-    }.bind(this));
+    });
   }
 }
 
@@ -56,7 +57,6 @@ HashTable.prototype._formatStorage = function(newLimit) {
  * insert = O(1)
  * retrieve = O(1)
  * remove = O(1)
- * _formatStorage = O(n)
  */
 
 
