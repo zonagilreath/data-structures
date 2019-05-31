@@ -1,7 +1,6 @@
 var HashTable = function() {
   this._limit = 8;
-  //this._occupied = 0;
-  this._storage = LimitedArray(this._limit);
+  this._formatStorage(this._limit);
 };
 
 HashTable.prototype.insert = function(k, v) {
@@ -11,9 +10,10 @@ HashTable.prototype.insert = function(k, v) {
   }else {
     this._storage.set(index, {});
     this._storage.get(index)[k] = v;
-    //this._occupied++
-    //if (this._occupied >= this._limit * 0.75)
-      //this._doubleCap();
+    this._occupied++
+    if (this._occupied > this._limit * 0.5) {
+      this._formatStorage(this._limit * 2.0);
+    }
   }
 };
 
@@ -25,20 +25,40 @@ HashTable.prototype.retrieve = function(k) {
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   delete this._storage.get(index)[k];
+  this._occupied--;
+  if (this._occupied < this._limit * 0.25 && this._limit > 8) {
+    this._formatStorage(this._limit * 0.5);
+  }
 };
 
-HashTable.prototype.remove = function(){
-  //this.limit *= 2;
-  //create LtdArr ()
-  //this_.storage.each()
+HashTable.prototype._formatStorage = function(newLimit) {
+  this._occupied = 0;
+  let oldStorage;
+  if (this._storage) {
+    oldStorage = this._storage;
+  }
+  this._limit = newLimit;
+  this._storage = new LimitedArray(newLimit);
+  this._storage.each(function(ele, i, arr) {
+    arr[i] = {};
+  });
+  if (oldStorage) {
+    oldStorage.each(function(obj) {
+      for (let key in obj) {
+        this.insert(key, obj[key]);
+      }
+    }.bind(this));
+  }
 }
-
 
 /*
  * Complexity: What is the time complexity of the above functions?
  * insert = O(1)
  * retrieve = O(1)
  * remove = O(1)
+ * _formatStorage = O(n)
  */
+
+
 
 
