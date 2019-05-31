@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>Look at these kitties</h1>
+    <img src="https://cdn2.thecatapi.com/images/vXb2jdNoo.jpg">
+    <script type="text/javascript" src="hashTable.js"></script>
+    <script type="text/javascript" src="hashTableHelpers.js"></script>
+    <script>
+      // const tables = [];
+      for (let i = 0; i < 1000; i++){
+        const newTable = new HashTable();
+        // tables.push(newTable);
+        for (let j = 0; j < 1000; j++){
+          newTable.insert(i,j);
+        }
+        for (let j = 0; j < 1000; j++){
+          newTable.retrieve(i);
+        }
+        for (let j = 0; j < 1000; j++){
+          newTable.remove(i);
+        }
+      }
+    </script>
+  </body>
+</html>

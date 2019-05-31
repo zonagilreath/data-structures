@@ -6,7 +6,6 @@ var HashTable = function() {
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   const subIndex = this._hash(k);
-  console.log(this._storage.get(index));
   this._storage.get(index)[subIndex] = [k, v];
   this._occupied++
   if (this._occupied > this._limit * 0.5) {

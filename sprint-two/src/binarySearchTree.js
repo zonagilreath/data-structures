@@ -60,6 +60,23 @@ BinarySearchTree.prototype.depthFirstLog = function(func){
   }
 }
 
+BinarySearchTree.prototype.breadthFirstLog = function(){
+  const queue = new Queue();
+  queue.enqueue(this)
+  while (queue.size()){
+    for(let i = queue.top; i < queue.bottom + 1; i++){
+      const node = queue.dequeue();
+      console.log(node.value);
+      if (node.left){
+        queue.enqueue(node.left);
+      }
+      if (node.right){
+        queue.enqueue(node.right);
+      }
+    }
+  }
+}
+
 
 /*
  * Complexity: What is the time complexity of the above functions?
@@ -67,3 +84,5 @@ BinarySearchTree.prototype.depthFirstLog = function(func){
  * contains logn
  * depthFirstLog linear
  */
+
+
