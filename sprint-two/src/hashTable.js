@@ -1,5 +1,6 @@
 var HashTable = function() {
   this._limit = 8;
+  //this._occupied = 0;
   this._storage = LimitedArray(this._limit);
 };
 
@@ -10,6 +11,9 @@ HashTable.prototype.insert = function(k, v) {
   }else {
     this._storage.set(index, {});
     this._storage.get(index)[k] = v;
+    //this._occupied++
+    //if (this._occupied >= this._limit * 0.75)
+      //this._doubleCap();
   }
 };
 
@@ -23,6 +27,11 @@ HashTable.prototype.remove = function(k) {
   delete this._storage.get(index)[k];
 };
 
+HashTable.prototype.remove = function(){
+  //this.limit *= 2;
+  //create LtdArr ()
+  //this_.storage.each()
+}
 
 
 /*
