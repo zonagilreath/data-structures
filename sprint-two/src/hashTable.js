@@ -5,26 +5,27 @@ var HashTable = function() {
 
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  if (this._storage.get(index) !== undefined){
-    this._storage.get(index)[k] = v
-  }else {
-    this._storage.set(index, {});
-    this._storage.get(index)[k] = v;
-    this._occupied++
-    if (this._occupied > this._limit * 0.5) {
-      this._formatStorage(this._limit * 2.0);
-    }
+  const subIndex = this._hash(k);
+  console.log(this._storage.get(index));
+  this._storage.get(index)[subIndex] = [k, v];
+  this._occupied++
+  if (this._occupied > this._limit * 0.5) {
+    this._formatStorage(this._limit * 2.0);
   }
 };
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  return this._storage.get(index)[k];
+  const subIndex = this._hash(k);
+  if (this._storage.get(index)[subIndex] !== undefined) {
+    return this._storage.get(index)[subIndex][1];
+  }
 };
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  delete this._storage.get(index)[k];
+  const subIndex = this._hash(k);
+  this._storage.get(index)[subIndex] = undefined;
   this._occupied--;
   if (this._occupied < this._limit * 0.25 && this._limit > 8) {
     this._formatStorage(this._limit * 0.5);
@@ -39,17 +40,28 @@ HashTable.prototype._formatStorage = function(newLimit) {
   }
   this._limit = newLimit;
   this._storage = new LimitedArray(newLimit);
-  this._storage.each(function(ele, i, arr) {
-    arr[i] = {};
-  });
-  if (oldStorage) {
-    let currHash = this;
-    oldStorage.each(function(obj) {
-      for (let key in obj) {
-        currHash.insert(key, obj[key]);
-      }
-    });
+  for (let i = 0; i < this._limit; i++) {
+    this._storage.set(i, new Array(7));
   }
+  if (oldStorage) {
+    oldStorage.each(function(bucket) {
+      for (let tuple of bucket) {
+        if (tuple !== undefined) {
+          this.insert(tuple[0], tuple[1]);
+        }
+      }
+    }.bind(this));
+  }
+}
+
+HashTable.prototype._hash = function(str) {
+   var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = (hash << 5) + hash + str.charCodeAt(i);
+    hash = hash & hash; // Convert to 32bit integer
+    hash = Math.abs(hash);
+  }
+  return hash % 7;
 }
 
 /*
