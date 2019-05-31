@@ -18,6 +18,7 @@
     <script>
       $(function() {
         $.each(['functional', 'functional-shared', 'prototypal', 'pseudoclassical', 'es6'], function(i, variant) {
+          console.log(window.location.toString());
           $('<iframe src="' + window.location.toString().replace('.html', 'Section.html?') + variant + '" />').appendTo(document.body);
         });
 
