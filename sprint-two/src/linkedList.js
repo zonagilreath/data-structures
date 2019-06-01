@@ -42,7 +42,7 @@ var Node = function(value) {
 
   node.value = value;
   node.next = null;
-
+  node.prev = null;
   return node;
 };
 
