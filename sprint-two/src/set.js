@@ -1,22 +1,26 @@
 var Set = function() {
   var set = Object.create(setPrototype);
-  set._storage = {}; // fix me
+  set._storage = {}; 
   return set;
 };
 
 var setPrototype = {};
 
 setPrototype.add = function(item) {
-  this._storage[item] = true;
+  let stringified = JSON.stringify(item);
+  this._storage[stringified] = true;
 };
 
 setPrototype.contains = function(item) {
-  return this._storage[item] || false;
+  let stringified = JSON.stringify(item);
+  return this._storage[stringified] || false;
 };
 
 setPrototype.remove = function(item) {
-  delete this._storage[item];
+  let stringified = JSON.stringify(item);
+  delete this._storage[stringified];
 };
+
 
 /*
  * Complexity: What is the time complexity of the above functions?
